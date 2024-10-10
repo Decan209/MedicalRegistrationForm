@@ -1,8 +1,8 @@
 let gender = "";
 
 const focusRemoveError = (input) => {
-    document.getElementById(input).textContent = "";
-}
+  document.getElementById(input).textContent = "";
+};
 
 const validateForm = () => {
   const name = document.getElementById("fullName").value.trim();
@@ -12,61 +12,68 @@ const validateForm = () => {
   const age = parseInt(document.getElementById("age").value.trim());
   const genderInput = document.querySelector('input[name="gender"]:checked');
 
+  // Xóa thông báo lỗi cũ
   document.getElementById("nameError").textContent = "";
   document.getElementById("addressError").textContent = "";
   document.getElementById("phoneError").textContent = "";
   document.getElementById("cccdError").textContent = "";
   document.getElementById("ageError").textContent = "";
+  document.getElementById("genderError").textContent = "";
 
   let isValid = true;
 
+  // Kiểm tra tên
   if (!name) {
-    document.getElementById("nameError").textContent =
-      "Tên không được để trống";
+    document.getElementById("nameError").textContent = "Tên không được để trống";
     isValid = false;
-  } else if (/[^a-zA-Z\s]/.test(name)) {
-    document.getElementById("nameError").textContent =
-      "Tên không được chứa ký tự đặc biệt";
+  } else if (!/^[A-Za-zÀ-ỹ\s]+$/.test(name)) { // Sửa biểu thức chính quy
+    document.getElementById("nameError").textContent = "Tên không hợp lệ (chứa ký tự đặc biệt)";
+    isValid = false;
+  } else if (name.trim().split(/\s+/).length < 2) {
+    document.getElementById("nameError").textContent = "Tên phải có ít nhất hai từ";
     isValid = false;
   }
 
+  // Kiểm tra địa chỉ
   if (!address) {
-    document.getElementById("addressError").textContent =
-      "Địa chỉ không được để trống";
+    document.getElementById("addressError").textContent = "Địa chỉ không được để trống";
     isValid = false;
   } else if (address.length > 100) {
-    document.getElementById("addressError").textContent =
-      "Địa chỉ không được dài quá 100 ký tự";
+    document.getElementById("addressError").textContent = "Địa chỉ không được dài quá 100 ký tự";
     isValid = false;
   }
 
-  if (!/^\d{10,11}$/.test(phone)) {
+  // Kiểm tra số điện thoại
+  if (!/^\d{4}\s\d{3}\s\d{3}$/.test(phone)) {
     document.getElementById("phoneError").textContent =
-      "Số điện thoại phải là số và có từ 10 đến 11 chữ số";
+      "Số điện thoại phải có định dạng '0123 456 789' và có 10 hoặc 11 chữ số";
     isValid = false;
   }
 
+  // Kiểm tra số CCCD
   if (!/^\d{12}$/.test(cccd)) {
     document.getElementById("cccdError").textContent =
-      "Số CCCD phải là số và có đúng 12 chữ số";
+      "Số CCCD phải có đúng 12 chữ số và không chứa ký tự không phải số";
     isValid = false;
   }
 
+  // Kiểm tra tuổi
   if (isNaN(age) || age < 0 || age > 120) {
     document.getElementById("ageError").textContent =
       "Tuổi không hợp lệ, phải từ 0 đến 120";
     isValid = false;
   }
 
-  if (genderInput) {
-    gender = genderInput.value;
-  } else {
-    document.getElementById("genderError").textContent =
-      "Vui lòng chọn giới tính.";
+  // Kiểm tra giới tính
+  if (!genderInput) {
+    document.getElementById("genderError").textContent = "Vui lòng chọn giới tính.";
+    isValid = false;
   }
 
   return isValid;
 };
+
+
 
 document.getElementById("calculateBtn").addEventListener("click", function () {
   if (validateForm()) {
