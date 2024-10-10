@@ -44,11 +44,11 @@ const validateForm = () => {
   }
 
   // Kiểm tra số điện thoại
-  if (!/^\d{4}\s\d{3}\s\d{3}$/.test(phone)) {
+  if (!/^(0[1-9]\d{8})$/.test(phone)) {
     document.getElementById("phoneError").textContent =
-      "Số điện thoại phải có định dạng '0123 456 789' và có 10 hoặc 11 chữ số";
+      "Số điện thoại không hợp lệ.";
     isValid = false;
-  }
+}
 
   // Kiểm tra số CCCD
   if (!/^\d{12}$/.test(cccd)) {
