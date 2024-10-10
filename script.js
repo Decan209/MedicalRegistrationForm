@@ -78,8 +78,9 @@ const validateForm = () => {
 document.getElementById("calculateBtn").addEventListener("click", function () {
   if (validateForm()) {
     const age = parseInt(document.getElementById("age").value);
+    let genderInput = document.querySelector('input[name="gender"]:checked');
+    let gender = genderInput ? genderInput.value : null;
     let price = 0;
-
     if (age < 17) {
       price = 50;
     } else if (gender === "male") {
